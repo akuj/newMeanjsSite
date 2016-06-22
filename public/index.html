@@ -51,7 +51,7 @@
 		
 		<!-- Trigger the modal with a button -->
 		
-		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" ng-show="!loggedin" ng-click="accessdenied = 3; password = ''" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span>  Kirjaudu sisään</button>
+		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" ng-show="!loggedin" ng-click="accessdenied = 3; pass = ''" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span>  Kirjaudu sisään</button>
 		<button type="button" class="btn btn-primary btn-lg" ng-show="loggedin" ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span>  Kirjaudu ulos</button>
 		<button type="button" class="btn btn-info btn-lg text-center" data-toggle="modal" ng-show="loggedin" data-target="#myModal"><span class="glyphicon glyphicon-save"></span>  Lisää uusi aihe</button>
 		
@@ -64,7 +64,7 @@
 				<hr>
 				<div class="row">
 					<div class="col-md-1">                   					
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editModal">
+                        <button type="button" class="btn btn-info" ng-show="accessdenied==0" data-toggle="modal" data-target="#editModal">
 							<span class="glyphicon glyphicon-edit"></span>
 						</button> 
 					</div>
@@ -73,7 +73,7 @@
 				</div>     
 				<div class="row">
 					<div class="col-md-1">
-						<button type="button" class="btn btn-danger" ng-click="deleteTopic(topic._id)">
+						<button type="button" class="btn btn-danger" ng-show="accessdenied==0" ng-click="deleteTopic(topic._id)">
 							<span class="glyphicon glyphicon-trash"></span>
 						</button>
 					</div>      
@@ -109,7 +109,7 @@
                             <input type="text" class="form-control" id="useri" ng-model="user">
 						
 						    <label for="passi">Salasana:</label>
-						    <input type="password" class="form-control" id="passi" ng-model="password">
+						    <input type="password" class="form-control" id="passi" ng-model="pass">
 						</form>
                     </div>
 

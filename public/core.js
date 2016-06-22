@@ -4,7 +4,7 @@ function mainController($scope, $http) {
     $scope.formData = {};
 	
 	$scope.user = "";
-	$scope.password = "";
+	$scope.pass = "";
 	
 	$scope.accessdenied = 3;
 	
@@ -49,14 +49,14 @@ function mainController($scope, $http) {
 		$scope.loggedin = false;
 		$scope.accessdenied = 2;
 		$scope.user = "";
-		$scope.password = "";
+		$scope.pass = "";
 	
 };
 
 
 	$scope.logIn = function() {  
 	
-		if ($scope.user === "kuma" & $scope.password === "bear") {
+		if ($scope.user === "kuma" & $scope.pass === "bear") {
 			$scope.loggedin = true;
 			$scope.accessdenied = 0;
 		}

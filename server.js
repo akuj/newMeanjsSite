@@ -22,6 +22,11 @@ app.use(express.static(__dirname + '/public'));                 // set the stati
 		kuvaus : String
     });
 	
+	var User = mongoose.model('User', {
+		username : String,
+		password : String
+	});
+	
 	// routes 
 
     // api ---------------------------------------------------------------------
@@ -76,6 +81,7 @@ app.use(express.static(__dirname + '/public'));                 // set the stati
             });
         });
     });
+
 	
 	
 	// application -------------------------------------------------------------
