@@ -56,7 +56,7 @@ function mainController($scope, $http) {
 
 	$scope.logIn = function() {  
 	
-		if ($scope.user === "kuma" & $scope.pass === "bear") {
+		if ($scope.user === "abc" & $scope.pass === "123") {
 			$scope.loggedin = true;
 			$scope.accessdenied = 0;
 		}

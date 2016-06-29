@@ -20,6 +20,9 @@
         #todo-list              { margin-bottom:30px; }
 		hr 						{ border: 1px solid #BDBDBD;
 								  width="98%"; }
+		.glyphicon.glyphicon-one-fine-dot:before {
+								content: "\25cf";
+								font-size: 1.5em;}
     </style>
 
     <!-- SPELLS -->
@@ -28,14 +31,16 @@
     <script src="core.js"></script>
 
 </head>
-<!-- SET THE CONTROLLER AND GET ALL TODOS -->
+
 <body ng-controller="mainController">
     <div class="container">
 
-        <!-- HEADER AND TODO COUNT -->
+        <!-- Otsikko -->
         <div class="jumbotron text-center">
             <h1>OAMK Opinnäytetyö- ja projektiaiheita <span class="label label-info">{{ topics.length }}</span></h1>
         </div>
+		
+		<!-- Kirjautumiseen liittyvät ilmoitukset -->
 		
 		<div class="alert alert-success" ng-show="accessdenied == 0">
 			<p style="font-size:160%;"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>  Tervetuloa, {{user}}!</p>
@@ -49,17 +54,16 @@
 			<p style="font-size:160%;"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span>  Kirjauduit ulos</p>
 		</div>
 		
-		<!-- Trigger the modal with a button -->
+		<!-- Napit -->
 		
 		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" ng-show="!loggedin" ng-click="accessdenied = 3; pass = ''" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span>  Kirjaudu sisään</button>
 		<button type="button" class="btn btn-primary btn-lg" ng-show="loggedin" ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span>  Kirjaudu ulos</button>
 		<button type="button" class="btn btn-info btn-lg text-center" data-toggle="modal" ng-show="loggedin" data-target="#myModal"><span class="glyphicon glyphicon-save"></span>  Lisää uusi aihe</button>
 		
-        <!-- TODO LIST -->
-		
+        
+		<!-- Lista aiheista -->
             
 			<div class="container">
-                <!-- LOOP OVER THE TODOS IN $scope.todos -->
                 <div class="checkbox" ng-repeat="topic in topics | orderBy : '[]': true">
 				<hr>
 				<div class="row">
@@ -67,6 +71,7 @@
                         <button type="button" class="btn btn-info" ng-show="accessdenied==0" data-toggle="modal" data-target="#editModal">
 							<span class="glyphicon glyphicon-edit"></span>
 						</button> 
+						<span class="glyphicon glyphicon-one-fine-dot" ng-hide="loggedin"></span>
 					</div>
 					<div class="col-md-10">		
 						<h1>{{ topic.aihe }}</h1></div>
@@ -86,90 +91,71 @@
 			
 			
 			
-        <!-- Modal -->
-  <div class="modal fade" id="loginModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Kirjaudu sisään</h4>
-        </div>
-        <div class="modal-body">
-          <p><!-- FORM TO CREATE TODOS -->
-        <div id="todo-form" class="row">
-            <div class="col-sm-8 col-sm-offset-2 text-center">
-                <form>
-                    <div class="form-group">
+        <!-- Kirjautumisikkuna -->
+		
+			<div class="modal fade" id="loginModal" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Kirjaudu sisään</h4>
+						</div>
+						<div class="modal-body">
+							<div id="login-form" class="row">
+								<div class="col-sm-8 col-sm-offset-2 text-center">
+									<div class="form-group">
+										<form role="form">
+										<label for="useri">Käyttäjätunnus:</label>
+										<input type="text" class="form-control" id="useri" ng-model="user">						
+										<label for="passi">Salasana:</label>
+										<input type="password" class="form-control" id="passi" ng-model="pass">
+										</form>
+									</div>
+								<button type="button" class="btn btn-primary btn-lg" data-dismiss="modal" ng-click="logIn()">Kirjaudu</button>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
+						</div>
+					</div>
+				</div>
+			</div>
+  
+  
+		<!-- Aiheiden lisäys -ikkuna -->
 
-                        <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-						<form role="form">
-						    <label for="useri">Käyttäjätunnus:</label>
-                            <input type="text" class="form-control" id="useri" ng-model="user">
-						
-						    <label for="passi">Salasana:</label>
-						    <input type="password" class="form-control" id="passi" ng-model="pass">
-						</form>
-                    </div>
-
-                    <!-- createToDo() WILL CREATE NEW TODOS -->
-                    <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal" ng-click="logIn()">Kirjaudu</button>
-					
-                </form>
-            </div>
-        </div></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
-        </div>
-      </div>
+			<div class="modal fade" id="myModal" role="dialog">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Lisää uusi opinnäytetyö tai projekti</h4>
+						</div>
+						<div class="modal-body">
+							<div id="topic-form" class="row">
+								<div class="col-sm-8 col-sm-offset-2 text-center">
+									<form>
+										<div class="form-group">
+										<form role="form">
+											<label for="aihe">Aihe:</label>
+											<input type="text" maxlength="50" size="50" class="form-control input-lg" id="aihe" placeholder="Aihe (max. 50 merkkiä)" ng-model="formData.aihe">						
+											<label for="kuvaus">Kuvaus:</label>
+											<textarea class="form-control" maxlength="255" rows="5" id="kuvaus" placeholder="Kuvaus (max. 255 merkkiä)" ng-model="formData.kuvaus"></textarea>
+										</form>
+										</div>
+										<button type="submit" class="btn btn-primary btn-lg" data-dismiss="modal" ng-click="createTopic()">Lisää</button>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
+						</div>
+					</div>
       
-    </div>
-  </div>
-  
-  
-  
-
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog modal-lg">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Lisää uusi opinnäytetyö tai projekti</h4>
-        </div>
-        <div class="modal-body">
-          <p><!-- FORM TO CREATE TODOS -->
-        <div id="todo-form" class="row">
-            <div class="col-sm-8 col-sm-offset-2 text-center">
-                <form>
-                    <div class="form-group">
-
-                        <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-						<form role="form">
-						    <label for="aihe">Aihe:</label>
-                            <input type="text" maxlength="50" size="50" class="form-control input-lg" id="aihe" placeholder="Aihe (max. 50 merkkiä)" ng-model="formData.aihe">
-						
-						    <label for="kuvaus">Kuvaus:</label>
-						    <textarea class="form-control" maxlength="255" rows="5" id="kuvaus" placeholder="Kuvaus (max. 255 merkkiä)" ng-model="formData.kuvaus"></textarea>
-						</form>
-                    </div>
-
-                    <!-- createToDo() WILL CREATE NEW TODOS -->
-                    <button type="submit" class="btn btn-primary btn-lg" data-dismiss="modal" ng-click="createTopic()">Lisää</button>
-                </form>
-            </div>
-        </div></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
+				</div>
+			</div>
 
 		
 		

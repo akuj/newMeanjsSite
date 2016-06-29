@@ -81,7 +81,6 @@ app.use(express.static(__dirname + '/public'));                 // set the stati
             });
         });
     });
-
 	
 	
 	// application -------------------------------------------------------------
